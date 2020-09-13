@@ -60,6 +60,18 @@ const WeekTable = (props) => {
         { title: "Kabinet", field: "cabinet_number" },
         { title: "Odjel", field: "department_name" },
         { title: "Predmet", field: "course_name" },
+        {
+          title: "Početak",
+          field: "time_change_begin",
+        },
+        {
+          title: "Završetak",
+          field: "time_change_until",
+        },
+        {
+          title: "Dan",
+          field: "day_name",
+        },
       ]}
       data={weekDay}
       icons={tableIcons}

@@ -344,7 +344,7 @@ const ContentUpload = () => {
               cabinet: "",
             }}
             onSubmit={async (data, { resetForm }) => {
-              console.log(data);
+              console.log(data); //ovo maknuti
               await axios.post("http://localhost:5000/api/postDates", {
                 dates: dateLocale,
                 time_change_begin: timeChangeBegin.format("HH:mm"),

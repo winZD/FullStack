@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
 import back from "../icons/back.png";
-
+import logo_sveuciliste_u_zadru from "../icons/logo_sveuciliste_u_zadru.jpg";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -17,52 +17,6 @@ import print from "print-js";
 
 import { saveAs } from "file-saver";
 import axios from "axios";
-
-const ParrentDiv = styled.div`
-  display: grid;
-
-  grid-template-areas:
-    "header header header"
-    "nav content side"
-    "footer footer footer";
-
-  grid-template-columns: 380px 1fr 0px;
-  grid-template-rows: auto 1fr auto;
-  grid-gap: 10px;
-
-  height: 100vh;
-`;
-const Title = styled.div`
-  height: 4rem;
-  grid-area: header;
-  background-color: #3f1f5f;
-
-  text-align: center;
-  font-size: 1.5rem;
-  color: white;
-  font-family: "Audiowide", cursive;
-`;
-
-const MainContentDiv = styled.div`
-  grid-area: content;
-  background-color: whitesmoke;
-`;
-
-const SideBarForm = styled.div`
-  grid-area: nav;
-
-  background-color: #6c7792;
-`;
-
-const PatternDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  line-height: 1.4;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  transition: all 0.3s ease-in-out;
-`;
 
 const signUpValidationSchema = yup.object().shape({
   firstNameLastName: yup
@@ -113,6 +67,7 @@ const Patterns = () => {
   const [mentor, setMentor] = useState("(Mentor)");
 
   const [selectedOption, setSelectedOption] = useState("redovan");
+
   const handleOptionChange = (changeEvent: any) => {
     setSelectedOption(changeEvent.target.value);
   };
@@ -131,6 +86,7 @@ const Patterns = () => {
   const handleMentor = (e: any) => {
     setMentor(e.target.value);
   };
+
   // new function for generating pdf
 
   const createPDF = async () => {
@@ -138,6 +94,8 @@ const Patterns = () => {
       themeName,
       studentName,
       studentNumber,
+      mentor,
+      selectedOption,
     });
     const response = await axios.get("http://localhost:5000/api/fetchPDF", {
       responseType: "blob",
@@ -166,7 +124,7 @@ const Patterns = () => {
 
       <SideBarForm>
         <form>
-          <Clock date={new Date()} />
+          <h2>Upišite podatke:</h2>
           <TextField
             id="standard-basic"
             label="Tema završnog rada"
@@ -175,6 +133,7 @@ const Patterns = () => {
               handleInputTheme(e);
             }}
           />
+
           <TextField
             id="standard-basic"
             label="Ime i prezime"
@@ -183,6 +142,7 @@ const Patterns = () => {
               handleInputName(e);
             }}
           />
+
           <div>
             <label>
               <input
@@ -203,9 +163,7 @@ const Patterns = () => {
               Izvanredan
             </label>
           </div>
-          <TextField
-            style={{ margin: "20px", backgroundColor: "white" }}
-          ></TextField>
+
           <TextField
             id="standard-basic"
             label="Mentor"
@@ -214,11 +172,7 @@ const Patterns = () => {
               handleMentor(e);
             }}
           />
-          <TextField
-            id="standard-basic"
-            label="Ko-mentor"
-            style={{ margin: "20px", backgroundColor: "white" }}
-          />
+
           <TextField
             id="standard-basic"
             label="Matični broj studenta"
@@ -229,21 +183,8 @@ const Patterns = () => {
             }}
           />
         </form>{" "}
-        <Example></Example>
-        <button
-          onClick={() =>
-            print({
-              printable: "print-form",
-              type: "html",
-              header: "Prijava teme završnog rada",
-              maxWidth: 800,
-              targetStyle: ["display:flex"],
-            })
-          }
-        >
-          PRINTJSSS
-        </button>
-        <button onClick={createPDF}>PDF</button>
+        <Botun onClick={createPDF}>Spremi PDF</Botun>
+        <button onClick={createPDF}>Spremi PDF</button>
       </SideBarForm>
       <MainContentDiv>
         <PatternDiv>
@@ -293,3 +234,67 @@ const Patterns = () => {
   );
 };
 export default Patterns;
+const ParrentDiv = styled.div`
+  display: grid;
+
+  grid-template-areas:
+    "header header header"
+    "nav content side"
+    "footer footer footer";
+
+  grid-template-columns: 380px 1fr 0px;
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 10px;
+
+  height: 100vh;
+`;
+const Title = styled.div`
+  height: 4rem;
+  grid-area: header;
+  background-color: #3f1f5f;
+
+  text-align: center;
+  font-size: 1.5rem;
+  color: white;
+  font-family: "Audiowide", cursive;
+`;
+
+const MainContentDiv = styled.div`
+  grid-area: content;
+  background-color: whitesmoke;
+`;
+
+const SideBarForm = styled.div`
+  grid-area: nav;
+  text-align: center;
+
+  background-color: #6c7792;
+`;
+
+const PatternDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  line-height: 1.4;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  transition: all 0.3s ease-in-out;
+`;
+
+const Botun = styled.button`
+padding: 15px 25px;
+font-size: 18px;
+text-align: center;
+cursor: pointer;
+outline: none;
+color: #fff;
+background-color: #4CAF50;
+border: none;
+border-radius: 15px;
+box-shadow: 0 9px #999;
+:hover {background-color: #3e8e41}
+:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+`;

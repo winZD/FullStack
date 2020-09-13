@@ -69,12 +69,13 @@ const HandlingSelectionChanges = (props) => {
     <MaterialTable
       columns={[
         { title: "Ime i prezime", field: "full_name" },
+
         { title: "Učionica", field: "cabinet_number" },
         { title: "Odjel", field: "department_name" },
         { title: "Predmet", field: "course_name" },
-        { title: "Dan", field: "day_name" },
+        { title: "Datum", field: "full_date" },
+        { title: "Kontakt", field: "email" },
       ]}
-      
       data={filteredDataOrAllData}
       icons={tableIcons}
       /* onRowClick={(evt, selectedRow) =>

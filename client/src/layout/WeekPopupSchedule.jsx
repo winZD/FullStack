@@ -77,8 +77,8 @@ const WeekPopupSchedule = (props) => {
   return (
     <WeekPopupScheduleWindow>
       <WeekPopupScheduleInside>
-        <button onClick={closeWeekSchedule}>zatvori</button>
         <Title>
+          <Botun onClick={closeWeekSchedule}></Botun>
           <button onClick={handleSubtractedDaysClick}>-</button>
           {daysData[countedDay].day_name}
           <button onClick={handleCountedDaysClick}>+</button>
@@ -103,8 +103,6 @@ const WeekPopupScheduleWindow = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
 `;
 const WeekPopupScheduleInside = styled.div`
-  grid-area: header;
-  position: absolute;
   left: 25%;
   right: 25%;
   top: 25%;
@@ -121,4 +119,30 @@ const Title = styled.div`
   font-size: 1.5rem;
   color: white;
   font-family: "Audiowide", cursive;
+`;
+const Botun = styled.button`
+  display: block;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-width: 0.1px;
+
+  border-color: #3f1f5f;
+  :hover {
+    background-color: red;
+  }
+  background: -webkit-linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent 46%,
+      white 46%,
+      white 56%,
+      transparent 56%,
+      transparent 100%
+    ),
+    -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%, white
+          56%, transparent 56%, transparent 100%);
+  background-color: #3f1f5f;
+
+  transition: all 0.3s ease;
 `;

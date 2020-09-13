@@ -50,7 +50,6 @@ const TableNameDiv = styled.div`
 const InTableDataDiv = styled.div`
   max-height: 90%;
   width: 95%;
-  overflow-y: scroll;
 `;
 
 const NavBar = () => {
@@ -89,14 +88,15 @@ const NavBar = () => {
   ////////////////////////////////////////////////////////
   const optionsForDateDataLocale = {
     weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   };
 
   const [date, setDate] = useState(new Date());
   const handleChangeDate = (date) => setDate(date);
-  const dateLocale = date
-    .toLocaleDateString("hr", optionsForDateDataLocale)
-    .toUpperCase();
-
+  const dateLocale = date.toLocaleDateString("hr", optionsForDateDataLocale);
+  // .toUpperCase();
   console.log(date);
 
   const [profData, setProfData] = useState([]);
@@ -306,6 +306,7 @@ const NavBar = () => {
           <span>Odaberi:</span>
           <Formik
             initialValues={{
+              date: "",
               days: "",
               profesori: "",
               department: "",
@@ -318,6 +319,8 @@ const NavBar = () => {
               const post = await axios.post(
                 "http://localhost:5000/api/postSearchProfDayCabCouDep",
                 {
+                  full_date: dateLocale,
+
                   days_id: data.days,
                   professors_id: data.profesori,
                   departments_id: data.department,
@@ -327,6 +330,7 @@ const NavBar = () => {
               );
 
               setFilteredData(post.data);
+              console.log(post);
             }}
           >
             {({
@@ -347,8 +351,10 @@ const NavBar = () => {
                     <Skeleton height={250} width={200} />
                   ) : (
                     <DatePicker
+                      name="date"
                       selected={date}
                       onChange={handleChangeDate}
+                      value={values.date}
                       dateFormat="d MMMM , yyyy"
                       locale="hr"
                       inline

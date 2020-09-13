@@ -30,6 +30,9 @@ const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
 const { where } = require("./schema/data");
 const withAuth = require("./middleware");
 const router = express.Router();
+
+//const User = require("./model/User");
+
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: "./schoolbox.db",
@@ -49,6 +52,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+//app.use(express.static(__dirname + "/public"));
 //passport middleware
 //app.use(passport.initialize());
 //app.use(passport.session());
@@ -58,6 +62,7 @@ const getUser = async (obj) => {
     where: obj,
   });
 };
+
 const User = sequelize.define("register_users", {
   // Model attributes are defined here
   users_id: {
@@ -144,7 +149,7 @@ try {
     name: "JSESSION",
     secret: "MYSECRETISVERYSECRET",
 
-    resave: true,
+    resave: true,  
     saveUninitialized: true,
   })
 );*/
@@ -355,6 +360,7 @@ router.get("/profDayCabCouDep", async (req, res) => {
       .select(
         `prof_day_cab_cou_dep.id`,
         `professors.full_name`,
+        `professors.email`,
         `departments.department_name`,
         `courses.course_name`,
         `days.day_name`,
@@ -402,6 +408,7 @@ router.get(`/fetchPDF`, async (req, res) => {
 
 router.post(`/postSearchProfDayCabCouDep`, async (req, res) => {
   const {
+    full_date,
     days_id,
     professors_id,
     departments_id,
@@ -442,14 +449,16 @@ router.post(`/postSearchProfDayCabCouDep`, async (req, res) => {
         `departments.department_name`,
         `courses.course_name`,
         `days.day_name`,
-        `cabinets.cabinet_number`
+        `cabinets.cabinet_number`,
+        `prof_day_cab_cou_dep.full_date`
       )
       .where(function () {
         this.where(`professors.professors_id`, `=`, `${professors_id}`)
           .orWhere(`departments.departments_id`, `=`, `${departments_id}`)
           .orWhere(`courses.courses_id`, `=`, `${course_id}`)
           .orWhere(`cabinets.cabinets_id`, `=`, `${cabinets_id}`)
-          .orWhere(`days.days_id`, `=`, `${days_id}`);
+          .orWhere(`days.days_id`, `=`, `${days_id}`)
+          .orWhere(`prof_day_cab_cou_dep.full_date`, `=`, `${full_date}`);
       });
 
     res.status(200).json(data);
@@ -495,7 +504,10 @@ router.post("/weekData", async (req, res) => {
         `departments.department_name`,
         `courses.course_name`,
         `days.day_name`,
-        `cabinets.cabinet_number`
+        `cabinets.cabinet_number`,
+        `prof_day_cab_cou_dep.full_date`,
+        `prof_day_cab_cou_dep.time_change_begin`,
+        `prof_day_cab_cou_dep.time_change_until`
       )
       .where(`days.days_id`, `=`, `${days_id}`);
 
