@@ -83,7 +83,7 @@ const WeekTable = (props) => {
         search: false,
         sorting: true,
         exportButton: true,
-
+        showTitle: false,
         rowStyle: { "&:hover": { backgroundColor: "#EEE" } },
         /*
         rowStyle: (rowData) => ({

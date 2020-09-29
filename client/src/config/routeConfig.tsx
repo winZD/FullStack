@@ -4,11 +4,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import back from "../icons/back.png";
 import calendar from "../icons/calendar.png";
 import Home from "../layout/home";
-import NavBar from "../layout/navbar";
+import ClientScreenInfo from "../layout/clientScreen";
 import Patterns from "../layout/patterns";
 import LoginScreen from "../layout/loginScreen";
 import RegisterScreen from "../layout/registerScreen";
-import ContentUpload from "../layout/contentUpload";
+import AdminScreen from "../layout/adminScreen";
 import withAuthorization from "../layout/withAuth";
 
 const Routing = () => {
@@ -18,13 +18,13 @@ const Routing = () => {
     <Router>
       <Switch>
         <Route exact path="/" component={Home}></Route>
-        <Route path="/navbar" component={NavBar}></Route>
+        <Route path="/clientScreen" component={ClientScreenInfo}></Route>
         <Route path="/patterns" component={Patterns}></Route>
         <Route path="/login" component={LoginScreen}></Route>
         <Route path="/register" component={RegisterScreen}></Route>
         <Route
-          path="/contentUpload"
-          component={withAuthorization(ContentUpload)}
+          path="/adminScreen"
+          component={withAuthorization(AdminScreen)}
         ></Route>
       </Switch>
     </Router>

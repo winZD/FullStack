@@ -14,7 +14,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import hr from "date-fns/locale/hr";
-import HandlingSelectionChanges from "./table/Table2";
+import ClientsTable from "./table/ClientsTable";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import WeekPopupSchedule from "./WeekPopupSchedule";
 
@@ -22,37 +22,7 @@ registerLocale("hr", hr);
 
 //const logo = require("../icons/back.png"); ----> za typescript
 
-const TableDiv = styled.div`
-  height: 65rem;
-  max-height: 62.5vh;
-  width: 50rem;
-  position: absolute;
-  top: 55%;
-  left: 62.5%;
-  transform: translate(-50%, -50%);
-
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`;
-const TableNameDiv = styled.div`
-  height: 7.5%;
-  width: 100%;
-  text-align: center;
-  font-size: 2.5rem;
-  background-color: transparent;
-  font-weight: bold;
-  margin-top: 0.5rem;
-`;
-
-const InTableDataDiv = styled.div`
-  max-height: 90%;
-  width: 95%;
-`;
-
-const NavBar = () => {
+const ClientScreenInfo = () => {
   const [loading, setLoading] = useState(true);
 
   /*
@@ -296,7 +266,7 @@ const NavBar = () => {
 
         <AlignTitleDiv>
           <div>
-            <span>Raspored</span>
+            <span>Raspored i pretraga</span>
           </div>
         </AlignTitleDiv>
       </Title>
@@ -358,6 +328,7 @@ const NavBar = () => {
                       dateFormat="d MMMM , yyyy"
                       locale="hr"
                       inline
+                      minDate={new Date()}
                     />
                   )}
                 </SelectDiv>
@@ -435,9 +406,7 @@ const NavBar = () => {
                   )}
                 </SelectDiv>
 
-                <Button type="submit" variant="contained" color="primary">
-                  Pretraži
-                </Button>
+                <ButtonSearch type="submit">Pretraži</ButtonSearch>
 
                 <pre>{JSON.stringify(values, null, 2)}</pre>
               </form>
@@ -447,7 +416,7 @@ const NavBar = () => {
         </AlignSideBarDiv>
       </SideBarForm>
       <MainContent>
-        <button onClick={handleWeekSchedule}>{"PREGLED TJEDNA"}</button>
+        <ButtonWeek onClick={handleWeekSchedule}>{"PREGLED TJEDNA"}</ButtonWeek>
 
         {popup ? (
           <WeekPopupSchedule
@@ -456,30 +425,53 @@ const NavBar = () => {
             daysData={daysData}
             closeWeekSchedule={closeWeekSchedule}
           />
-        ) : null}
-
-        <TableNameDiv>
-          <div>
-            {date
-              .toLocaleDateString("hr", optionsForDateDataLocale)
-              .toUpperCase()}
-          </div>
-        </TableNameDiv>
-        <InTableDataDiv>
-          {loading ? (
-            <Skeleton count={5} height={50} />
-          ) : (
-            <HandlingSelectionChanges
-              filteredDataOrAllData={
-                filteredData.length != 0 ? filteredData : allData
-              }
-            />
-          )}
-        </InTableDataDiv>
+        ) : (
+          <InTableDataDiv>
+            {loading ? (
+              <Skeleton count={5} height={50} />
+            ) : (
+              <ClientsTable
+                filteredDataOrAllData={
+                  filteredData.length != 0 ? filteredData : allData
+                }
+              />
+            )}
+          </InTableDataDiv>
+        )}
       </MainContent>
     </Container>
   );
 };
+
+const TableDiv = styled.div`
+  height: 65rem;
+  max-height: 62.5vh;
+  width: 50rem;
+  position: absolute;
+  top: 55%;
+  left: 62.5%;
+  transform: translate(-50%, -50%);
+
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+const TableNameDiv = styled.div`
+  height: 7.5%;
+  width: 100%;
+  text-align: center;
+  font-size: 2.5rem;
+  background-color: transparent;
+  font-weight: bold;
+  margin-top: 0.5rem;
+`;
+
+const InTableDataDiv = styled.div`
+  max-height: 90%;
+  width: 95%;
+`;
 
 const Container = styled.div`
   display: grid;
@@ -533,4 +525,41 @@ const AlignTitleDiv = styled.div`
   padding-top: 1rem;
 `;
 
-export default NavBar;
+const ButtonWeek = styled.button`
+margin-bottom: 5px;
+padding: 7px 15px;
+font-size: 15px;
+text-align: center;
+cursor: pointer;
+outline: none;
+color: #fff;
+background-color: #3f1f5f;
+border: none;
+border-radius: 15px;
+
+:hover {background-color: #34054d}
+:active {
+  background-color: #34054d;
+ 
+  transform: translateY(4px);
+`;
+
+const ButtonSearch = styled.button`
+padding: 10px 35px;
+font-size: 20px;
+text-align: center;
+cursor: pointer;
+outline: none;
+color: #fff;
+background-color: #3f1f5f;
+border: none;
+border-radius: 15px;
+
+:hover {background-color: #34054d}
+:active {
+  background-color: #34054d;
+ 
+  transform: translateY(4px);
+`;
+
+export default ClientScreenInfo;

@@ -536,8 +536,7 @@ router.post("/loginusers", async (req, res) => {
       if (err) throw err;
 
       if (isMatch) {
-        // from now on we’ll identify the user by the id and the id is
-        // the only personalized value that goes into our token
+        //token se dodjeljuje na određeni email
         const payload = { email: user.email };
         const token = jwt.sign(payload, secret, {
           expiresIn: "1h",

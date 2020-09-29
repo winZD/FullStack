@@ -15,7 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import hr from "date-fns/locale/hr";
-import HandlingSelectionChanges from "./table/Table2";
+import ClientsTable from "./table/ClientsTable";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import WeekTable from "./table/Weektable";
 
@@ -79,9 +79,11 @@ const WeekPopupSchedule = (props) => {
       <WeekPopupScheduleInside>
         <Title>
           <Botun onClick={closeWeekSchedule}></Botun>
-          <button onClick={handleSubtractedDaysClick}>-</button>
-          {daysData[countedDay].day_name}
-          <button onClick={handleCountedDaysClick}>+</button>
+          <div>
+            <button onClick={handleSubtractedDaysClick}>-</button>
+            {daysData[countedDay].day_name}
+            <button onClick={handleCountedDaysClick}>+</button>
+          </div>
         </Title>
         <WeekTable weekDay={weekDay} date={date}></WeekTable>
       </WeekPopupScheduleInside>
@@ -92,15 +94,8 @@ const WeekPopupSchedule = (props) => {
 export default WeekPopupSchedule;
 
 const WeekPopupScheduleWindow = styled.div`
-  display: flex;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  max-height: 90%;
+  width: 95%;
 `;
 const WeekPopupScheduleInside = styled.div`
   left: 25%;
@@ -113,10 +108,11 @@ const WeekPopupScheduleInside = styled.div`
 `;
 const Title = styled.div`
   height: 4rem;
-  grid-area: header;
-  background-color: #3f1f5f;
+
+  background-color: #6c7792;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 20px;
+
   color: white;
   font-family: "Audiowide", cursive;
 `;

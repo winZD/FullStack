@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import calendar from "../icons/calendar.png";
 import documents from "../icons/documents.png";
+import admin from "../icons/admin.png";
 
 import Patterns from "./patterns";
 
@@ -85,7 +86,7 @@ const Home = () => {
           <span>Obrasci i forme</span>
         </OptionDiv>
         <OptionDiv>
-          <Link to="/navbar">
+          <Link to="/clientScreen">
             <img
               src={calendar}
               style={{
@@ -98,9 +99,16 @@ const Home = () => {
         </OptionDiv>
 
         <OptionDiv>
-          <Link to="/login">
-            <h1>ADMIN</h1>
+          <Link to="/adminScreen">
+            <img
+              src={admin}
+              style={{
+                width: "22rem",
+                height: "22rem",
+              }}
+            ></img>
           </Link>
+          <span>Admin</span>
         </OptionDiv>
       </ForOptionsDiv>
     </Container>

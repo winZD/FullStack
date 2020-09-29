@@ -89,7 +89,7 @@ const LoginScreen = () => {
         if (response.status === 200) {
           const { token } = response.data;
           localStorage.setItem("token", token);
-          history.push("/contentUpload");
+          history.push("/adminScreen");
         }
       })
 
@@ -120,7 +120,6 @@ const LoginScreen = () => {
           <label>Password</label>
 
           <input
-            style={{ width: "30%" }}
             type="password"
             id="password"
             name="password"

@@ -19,7 +19,7 @@ import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 
-const HandlingSelectionChanges = (props) => {
+const ClientsTable = (props) => {
   const { filteredDataOrAllData } = props;
 
   const [allData, setAllData] = useState([]);
@@ -86,7 +86,7 @@ const HandlingSelectionChanges = (props) => {
         search: false,
         sorting: true,
         exportButton: true,
-
+        showTitle: false,
         rowStyle: { "&:hover": { backgroundColor: "#EEE" } },
         /*
         rowStyle: (rowData) => ({
@@ -118,4 +118,4 @@ const HandlingSelectionChanges = (props) => {
   );
 };
 
-export default HandlingSelectionChanges;
+export default ClientsTable;

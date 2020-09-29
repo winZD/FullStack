@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import useGetData from "../customHooks/useGetData";
 import usePostData from "../customHooks/usePostData";
-
+import { Link } from "react-router-dom";
 import axios from "axios";
 import cookie from "react-cookie";
 import { useCookies } from "react-cookie";
 import { Formik, Form as FormikForm, Field } from "formik";
 import { useMemo, useState, useEffect } from "react";
-
+import back from "../icons/back.png";
 import Select from "react-select";
 import { TextField, Button } from "@material-ui/core";
 //import ReactTable from "react-table";
@@ -17,9 +17,9 @@ import ReactTable from "react-table-6";
 import "react-table-6/react-table.css";
 import treeTableHOC from "react-table-6/lib/hoc/treeTable";
 import selectTableHOC from "react-table-6/lib/hoc/selectTable";
-import Table from "./table/Table";
+import Table from "./table/AdminsTable";
 //
-import HandlingSelectionChanges from "./table/Table2";
+import ClientsTable from "./table/ClientsTable";
 //
 
 import DatePicker from "react-datepicker";
@@ -33,7 +33,7 @@ import moment from "moment";
 
 registerLocale("hr", hr);
 
-const ContentUpload = () => {
+const AdminScreen = () => {
   const SelectTreeTable = selectTableHOC(treeTableHOC(ReactTable));
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -93,12 +93,12 @@ const ContentUpload = () => {
   const handleTimeChangeBegin = (timeChangeBegin) => {
     setTimeChangeBegin(timeChangeBegin);
 
-    console.log(timeChangeBegin.format("HH:mm") + "<------ Vrijeme");
+    //console.log(timeChangeBegin.format("HH:mm") + "<------ Vrijeme");
   };
   const handleTimeChangeUntil = (timeChangeUntil) => {
     setTimeChangeUntil(timeChangeUntil);
 
-    console.log(timeChangeUntil.format("HH:mm") + "<------ Vrijeme");
+    //console.log(timeChangeUntil.format("HH:mm") + "<------ Vrijeme");
   };
 
   ////dohvat svih podataka za odredenog profesora
@@ -327,7 +327,21 @@ const ContentUpload = () => {
 
   return (
     <Container>
-      <Title>Naslov</Title>
+      <Title>
+        {" "}
+        <Link to="/">
+          <img
+            src={back}
+            style={{
+              width: "50px",
+              position: "absolute",
+              left: "1%",
+              top: "1%",
+            }}
+          ></img>{" "}
+        </Link>
+        <AlignTitleDiv>Administracija</AlignTitleDiv>
+      </Title>
 
       <SideBarForm>
         <AlignSideBarDiv>
@@ -383,6 +397,7 @@ const ContentUpload = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <SelectDiv>
+                  <label>Odaberite datum</label>
                   <DatePicker
                     name={"dates"}
                     selected={date}
@@ -390,25 +405,29 @@ const ContentUpload = () => {
                     dateFormat="d MMMM , yyyy"
                     locale="hr"
                     inline
+                    minDate={new Date()}
                   />
-                  <SelectDiv>
-                    <div>od</div>
-                    <TimePicker
-                      name="time_change_begin"
-                      showSecond={false}
-                      minuteStep={30}
-                      onChange={handleTimeChangeBegin}
-                      value={timeChangeBegin}
-                    />
 
-                    <div>do</div>
-                    <TimePicker
-                      name="time_change_until"
-                      showSecond={false}
-                      minuteStep={30}
-                      onChange={handleTimeChangeUntil}
-                      value={timeChangeUntil}
-                    />
+                  <SelectDiv>
+                    <label>Odaberite vrijeme</label>
+
+                    <div style={{ display: "flex", flexDirection: "row" }}>
+                      <TimePicker
+                        name="time_change_begin"
+                        showSecond={false}
+                        minuteStep={30}
+                        onChange={handleTimeChangeBegin}
+                        value={timeChangeBegin}
+                      />
+                      <label> {" do "} </label>
+                      <TimePicker
+                        name="time_change_until"
+                        showSecond={false}
+                        minuteStep={30}
+                        onChange={handleTimeChangeUntil}
+                        value={timeChangeUntil}
+                      />
+                    </div>
                   </SelectDiv>
                 </SelectDiv>
                 <SelectDiv>
@@ -474,9 +493,6 @@ const ContentUpload = () => {
       </SideBarForm>
 
       <MainContent>
-        <div>
-          <h1>Administracija</h1>
-        </div>
         <button
           onClick={deleteDataWithID}
           disabled={selectedRows.length >= 1 ? false : true}
@@ -509,7 +525,7 @@ const ContentUpload = () => {
   );
 };
 
-export default ContentUpload;
+export default AdminScreen;
 //<Table columns={columns} data={allData} />
 const Container = styled.div`
   display: grid;
@@ -557,6 +573,9 @@ const AlignSideBarDiv = styled.div`
   display: grid;
   font-family: "Audiowide", cursive;
   text-align: center;
+`;
+const AlignTitleDiv = styled.div`
+  padding-top: 1rem;
 `;
 
 /*

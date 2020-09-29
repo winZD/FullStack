@@ -120,7 +120,9 @@ const Patterns = () => {
           }}
         ></img>
       </Link>
-      <Title>Obrasci i forme</Title>
+      <Title>
+        <AlignTitleDiv>Obrazac</AlignTitleDiv>
+      </Title>
 
       <SideBarForm>
         <form>
@@ -184,7 +186,6 @@ const Patterns = () => {
           />
         </form>{" "}
         <Botun onClick={createPDF}>Spremi PDF</Botun>
-        <button onClick={createPDF}>Spremi PDF</button>
       </SideBarForm>
       <MainContentDiv>
         <PatternDiv>
@@ -280,18 +281,21 @@ const PatternDiv = styled.div`
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
   transition: all 0.3s ease-in-out;
 `;
+const AlignTitleDiv = styled.div`
+  padding-top: 1rem;
+`;
 
 const Botun = styled.button`
-padding: 15px 25px;
-font-size: 18px;
+padding: 10px 10px;
+font-size: 15px;
 text-align: center;
 cursor: pointer;
 outline: none;
 color: #fff;
-background-color: #4CAF50;
+background-color: #3f1f5f;
 border: none;
 border-radius: 15px;
-box-shadow: 0 9px #999;
+
 :hover {background-color: #3e8e41}
 :active {
   background-color: #3e8e41;
