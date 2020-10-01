@@ -1,7 +1,7 @@
 const express = require("express");
 let cors = require("cors");
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000; //doda za produkciju process.env.PORT
 const bodyParser = require("body-parser");
 const logger = require("morgan");
 
@@ -26,20 +26,12 @@ const pdf = require("html-pdf");
 const pdfTemplate = require("./documents/index.js");
 //////////////////////////////////////SQLITE/////////
 const sqlite3 = require("sqlite3").verbose();
-const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
+//const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
 const { where } = require("./schema/data");
 const withAuth = require("./middleware");
 const router = express.Router();
 
-//const User = require("./model/User");
-
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "./schoolbox.db",
-  define: {
-    timestamps: false,
-  },
-});
+const User = require("./model/User");
 
 const secret = "wowow";
 /////////////////////////////////////
@@ -56,36 +48,12 @@ app.use(cookieParser());
 //passport middleware
 //app.use(passport.initialize());
 //app.use(passport.session());
-///////////////////////////////////////////////////////////pokušaj authentifikacijeć
+///////////////////////////////////////////////////////////pokušaj authentifikacije
 const getUser = async (obj) => {
   return await User.findOne({
     where: obj,
   });
 };
-
-const User = sequelize.define("register_users", {
-  // Model attributes are defined here
-  users_id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-});
 
 ////
 app.use(express.urlencoded({ extended: false }));
@@ -136,12 +104,6 @@ const knex = require("knex")({
 });
 
 //sequelize.sync();
-try {
-  sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
-}
 
 /////////////////////////////////////////////express session
 /*app.use(
@@ -224,8 +186,6 @@ router.get("/getSQLITEdata", (req, res) => {
   });
 });
 */
-const selectAllData = async () => {};
-//selectAllData();
 
 const createTable = async () => {
   try {
@@ -616,6 +576,9 @@ router.get("/signOut", function (req, res) {
 // append /api for our http requests
 app.use("/api", router);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("./client/build"));
+}
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );

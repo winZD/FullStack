@@ -12,6 +12,7 @@ import back from "../icons/back.png";
 import Select from "react-select";
 import { TextField, Button } from "@material-ui/core";
 //import ReactTable from "react-table";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import ReactTable from "react-table-6";
 
 import "react-table-6/react-table.css";
@@ -75,6 +76,7 @@ const AdminScreen = () => {
     month: "long",
     day: "numeric",
   };
+
   const [date, setDate] = useState(new Date());
   const handleChangeDate = (date) => setDate(date);
   console.log(date.toLocaleDateString("hr", optionsForDateDataLocale));
@@ -397,92 +399,126 @@ const AdminScreen = () => {
             }) => (
               <form onSubmit={handleSubmit}>
                 <SelectDiv>
-                  <label>Odaberite datum</label>
-                  <DatePicker
-                    name={"dates"}
-                    selected={date}
-                    onChange={handleChangeDate}
-                    dateFormat="d MMMM , yyyy"
-                    locale="hr"
-                    inline
-                    minDate={new Date()}
-                  />
+                  {loading ? (
+                    <Skeleton height={250} width={200} />
+                  ) : (
+                    <DatePicker
+                      name={"dates"}
+                      selected={date}
+                      onChange={handleChangeDate}
+                      dateFormat="d MMMM , yyyy"
+                      locale="hr"
+                      inline
+                      minDate={new Date()}
+                    />
+                  )}
 
                   <SelectDiv>
-                    <label>Odaberite vrijeme</label>
+                    {loading ? <Skeleton /> : <label>Odaberite vrijeme</label>}
 
                     <div style={{ display: "flex", flexDirection: "row" }}>
-                      <TimePicker
-                        name="time_change_begin"
-                        showSecond={false}
-                        minuteStep={30}
-                        onChange={handleTimeChangeBegin}
-                        value={timeChangeBegin}
-                      />
-                      <label> {" do "} </label>
-                      <TimePicker
-                        name="time_change_until"
-                        showSecond={false}
-                        minuteStep={30}
-                        onChange={handleTimeChangeUntil}
-                        value={timeChangeUntil}
-                      />
+                      {loading ? (
+                        <Skeleton />
+                      ) : (
+                        <TimePicker
+                          name="time_change_begin"
+                          showSecond={false}
+                          minuteStep={30}
+                          onChange={handleTimeChangeBegin}
+                          value={timeChangeBegin}
+                        />
+                      )}
+                      {loading ? <Skeleton /> : <label> {" do "} </label>}
+                      {loading ? (
+                        <Skeleton />
+                      ) : (
+                        <TimePicker
+                          name="time_change_until"
+                          showSecond={false}
+                          minuteStep={30}
+                          onChange={handleTimeChangeUntil}
+                          value={timeChangeUntil}
+                        />
+                      )}
                     </div>
                   </SelectDiv>
                 </SelectDiv>
                 <SelectDiv>
-                  <Select
-                    placeholder={"Odaberite dan"}
-                    name={"days"}
-                    options={mapDataByDay2}
-                    values={values.daysData}
-                    onChange={(value) => setFieldValue("days", value.id)}
-                    onBlur={() => setFieldTouched("days", true)}
-                  ></Select>
+                  {loading ? (
+                    <Skeleton />
+                  ) : (
+                    <Select
+                      placeholder={"Odaberite dan"}
+                      name={"days"}
+                      options={mapDataByDay2}
+                      values={values.daysData}
+                      onChange={(value) => setFieldValue("days", value.id)}
+                      onBlur={() => setFieldTouched("days", true)}
+                    ></Select>
+                  )}
+                </SelectDiv>
+
+                <SelectDiv>
+                  {loading ? (
+                    <Skeleton />
+                  ) : (
+                    <Select
+                      name={"profesori"}
+                      placeholder={"Odaberite profesora"}
+                      isDisabled={loading}
+                      options={mapDataByName2}
+                      values={values.profsData}
+                      onChange={(value) => setFieldValue("profesori", value.id)}
+                    ></Select>
+                  )}
                 </SelectDiv>
                 <SelectDiv>
-                  <Select
-                    name={"profesori"}
-                    placeholder={"Odaberite profesora"}
-                    isDisabled={loading}
-                    options={mapDataByName2}
-                    values={values.profsData}
-                    onChange={(value) => setFieldValue("profesori", value.id)}
-                  ></Select>
+                  {loading ? (
+                    <Skeleton />
+                  ) : (
+                    <Select
+                      name={"department"}
+                      placeholder={"Odaberite odjel"}
+                      isDisabled={loading}
+                      options={mapDataByDepartment2}
+                      values={values.departmentsData}
+                      onChange={(value) =>
+                        setFieldValue("department", value.id)
+                      }
+                    ></Select>
+                  )}
                 </SelectDiv>
                 <SelectDiv>
-                  <Select
-                    name={"department"}
-                    placeholder={"Odaberite odjel"}
-                    isDisabled={loading}
-                    options={mapDataByDepartment2}
-                    values={values.departmentsData}
-                    onChange={(value) => setFieldValue("department", value.id)}
-                  ></Select>
+                  {loading ? (
+                    <Skeleton />
+                  ) : (
+                    <Select
+                      name={"course"}
+                      placeholder={"Odaberite predmet"}
+                      isDisabled={loading}
+                      options={mapDataByCourse2}
+                      values={values.coursesData}
+                      onChange={(value) => setFieldValue("course", value.id)}
+                    ></Select>
+                  )}
                 </SelectDiv>
                 <SelectDiv>
-                  <Select
-                    name={"course"}
-                    placeholder={"Odaberite predmet"}
-                    isDisabled={loading}
-                    options={mapDataByCourse2}
-                    values={values.coursesData}
-                    onChange={(value) => setFieldValue("course", value.id)}
-                  ></Select>
-                </SelectDiv>
-                <SelectDiv>
-                  <Select
-                    name={"cabinet"}
-                    placeholder={"Odaberite kabinet"}
-                    isDisabled={loading}
-                    options={mapDataByCabinet2}
-                    values={values.cabinetsData}
-                    onChange={(value) => setFieldValue("cabinet", value.id)}
-                  ></Select>
+                  {loading ? (
+                    <Skeleton />
+                  ) : (
+                    <Select
+                      name={"cabinet"}
+                      placeholder={"Odaberite kabinet"}
+                      isDisabled={loading}
+                      options={mapDataByCabinet2}
+                      values={values.cabinetsData}
+                      onChange={(value) => setFieldValue("cabinet", value.id)}
+                    ></Select>
+                  )}
                 </SelectDiv>
 
                 <Button type="submit" variant="contained" color="primary">
-                  SUBMIT
+                  Spremi u tablicu
                 </Button>
 
                 <pre>{JSON.stringify(values, null, 2)}</pre>
@@ -501,12 +537,15 @@ const AdminScreen = () => {
         </button>
 
         <button onClick={handleLogOut}>Log out</button>
-
-        <Table
-          columns={columns}
-          data={allData}
-          setSelectedRows={setSelectedRows}
-        />
+        {loading ? (
+          <Skeleton count={5} height={50} />
+        ) : (
+          <Table
+            columns={columns}
+            data={allData}
+            setSelectedRows={setSelectedRows}
+          />
+        )}
 
         <p>Selected Rows: {selectedRows.length}</p>
         <pre>

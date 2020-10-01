@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { TextField } from "@material-ui/core";
+import * as yup from "yup";
 
 const Container = styled.div`
   display: flex;
@@ -61,6 +62,10 @@ const TitleDiv = styled.div`
   border-top-right-radius: 1rem;
   color: white;
 `;
+const vallidationSchema = yup.object().shape({
+  email: yup.string().email().required("Required"),
+  password: yup.string().required(),
+});
 
 const LoginScreen = () => {
   const [data, setData] = useState(false);

@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
 
 const sequelize = new Sequelize({
   dialect: "sqlite",
-  storage: "../schoolbox.db",
+  storage: "./schoolbox.db",
   define: {
     timestamps: false,
   },
