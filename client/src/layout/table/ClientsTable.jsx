@@ -70,7 +70,7 @@ const ClientsTable = (props) => {
       columns={[
         { title: "Ime i prezime", field: "full_name" },
 
-        { title: "Učionica", field: "cabinet_number" },
+        { title: "Kabinet", field: "cabinet_number" },
         { title: "Odjel", field: "department_name" },
         { title: "Predmet", field: "course_name" },
         { title: "Datum", field: "full_date" },
@@ -83,12 +83,12 @@ const ClientsTable = (props) => {
       }*/
       options={{
         emptyRowsWhenPaging: false,
-        search: false,
+        search: true,
         sorting: true,
         exportButton: true,
         showTitle: false,
         rowStyle: { "&:hover": { backgroundColor: "#EEE" } },
-        /*
+
         rowStyle: (rowData) => ({
           backgroundColor:
             selectedRow === rowData.tableData.id ? "red" : "#FFF",
@@ -96,7 +96,7 @@ const ClientsTable = (props) => {
 
         rowStyle: (rowData, index, level) => ({
           backgroundColor: index % 2 === 0 ? "#EEE" : "white",
-        }),*/
+        }),
       }}
       localization={{
         body: {
@@ -111,7 +111,8 @@ const ClientsTable = (props) => {
           labelRowsSelect: "Redovi",
         },
         toolbar: {
-          nRowsSelected: "{0} reda(ova) selektirana",
+          searchPlaceholder: "Pretraži...",
+          exportTitle: "Download",
         },
       }}
     />

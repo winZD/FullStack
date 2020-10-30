@@ -6,65 +6,17 @@ import { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { TextField } from "@material-ui/core";
-import * as yup from "yup";
+import * as Yup from "yup";
+import { Formik, Form, Field } from "formik";
 
-const Container = styled.div`
-  display: flex;
-  height: 100vh; // stands for “viewport height”, which is the viewable screen’s height. 100VH would represent 100% of the viewport’s height, or the full height of the screen
-  width: 100vw; // stands for "viewport width", which is the viewable screen's width. 100VW would represent 100% of the viewport's width, or the full width of the screen
-  justify-content: center;
-  background-color: #f0ffff;
-  align-items: center;
-`;
-
-const LogDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: black;
-  width: 50%;
-  height: 50%;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  background-color: #6c7792;
-`;
-
-const LogFormDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-`;
-const MainContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  display: flex;
-  flex-direction: column;
-  top: 50%;
-  left: 50%;
-  text-align: center;
-  transform: translate(-50%, -50%);
-  background-color: #000000cc;
-  height: 38rem;
-  width: 45rem;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  border-radius: 1rem;
-`;
-const TitleDiv = styled.div`
-  height: 7rem;
-  width: 100%;
-  background-color: #3f1f5f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-top-left-radius: 1rem;
-  border-top-right-radius: 1rem;
-  color: white;
-`;
-const vallidationSchema = yup.object().shape({
-  email: yup.string().email().required("Required"),
-  password: yup.string().required(),
+const SignupSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Unijeli se krivi e-mail!")
+    .required("Unos e-maila je obavezan!"),
+  password: Yup.string()
+    .min(4, "Lozinka je prekratka!")
+    .max(50, "Lozinka je preduga!")
+    .required("Unos lozinke je obavezan!"),
 });
 
 const LoginScreen = () => {
@@ -108,39 +60,78 @@ const LoginScreen = () => {
     <Container>
       <LogDiv>
         <TitleDiv>
-          <h1>Log in</h1>
+          <h2>Prijava korisnika</h2>
         </TitleDiv>
         <LogFormDiv>
-          <label>E-mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            onChange={(e) => {
-              handleEmail(e);
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
             }}
-            required
-          ></input>
+            validationSchema={SignupSchema}
+            onSubmit={async (data: any) => {
+              await axios
+                .post(
+                  "http://localhost:5000/api/loginusers",
+                  {
+                    email: data.email,
+                    password: data.password,
+                  },
+                  { withCredentials: true }
+                )
+                .then((response) => {
+                  if (response.status === 200) {
+                    const { token } = response.data;
+                    localStorage.setItem("token", token);
+                    history.push("/adminScreen");
+                  }
+                })
 
-          <label>Password</label>
+                .catch((error) => {
+                  alert("Krivi e-mail ili lozinka! Pokušajte ponovno");
+                  console.log(error);
+                  history.push("/");
+                });
 
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={(e) => {
-              handlePassword(e);
+              // same shape as initial values
+              console.log(data);
             }}
-            required
-          ></input>
-
-          <button
-            style={{ width: "200px", marginTop: "15px" }}
-            type="submit"
-            onClick={handleSubmit}
           >
-            LOG IN{" "}
-          </button>
+            {({ errors, touched }) => (
+              <Form>
+               
+                <LogFormDiv> 
+                  <Field
+                    name="email"
+                    type="email"
+                    autoFocus
+                    placeholder="e-mail"
+                  />
+
+                  {errors.email && touched.email ? (
+                    <div style={{ color: "red" }}>
+                      <strong>{errors.email}</strong>
+                    </div>
+                  ) : null}
+                </LogFormDiv>
+                <LogFormDiv>
+                  
+                  <Field
+                    name="password"
+                    type="password"
+                    placeholder="lozinka"
+                  />
+                  {errors.password && touched.password ? (
+                    <div style={{ color: "red" }}>
+                      <strong>{errors.password}</strong>
+                    </div>
+                  ) : null}
+                </LogFormDiv>
+              
+                <button type="submit">Prijava</button>
+              </Form>
+            )}
+          </Formik>
         </LogFormDiv>
       </LogDiv>
     </Container>
@@ -148,3 +139,58 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+
+const Container = styled.div`
+  display: flex;
+  height: 100vh; // stands for “viewport height”, which is the viewable screen’s height. 100VH would represent 100% of the viewport’s height, or the full height of the screen
+  width: 100vw; // stands for "viewport width", which is the viewable screen's width. 100VW would represent 100% of the viewport's width, or the full width of the screen
+  justify-content: center;
+  background-color: whitesmoke;
+  align-items: center;
+`;
+
+const LogDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  width: 30%;
+  height: 40%;
+
+  border-radius: 1rem;
+  background-color: #6c7792;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+`;
+
+const LogFormDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+`;
+
+const TitleDiv = styled.div`
+  height: 4rem;
+  width: 100%;
+  background-color: #3f1f5f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  color: white;
+`;
+
+const FieldCustom = styled.input`
+  width: 100%;
+  height: 56px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s all;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+  }
+`;

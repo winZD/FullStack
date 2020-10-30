@@ -10,7 +10,6 @@ import back from "../icons/back.png";
 
 import axios from "axios";
 
-import TableStudents from "./table/TableStudents";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -41,37 +40,20 @@ const WeekPopupSchedule = (props) => {
 
   if (!daysData) return <div>Loading...</div>;
 
-  const handleCountedDaysClick = async () => {
+  const handleCountedDaysClick = () => {
     setCountedDay(countedDay + 1);
 
     if (countedDay === daysData.length - 1) {
       setCountedDay(0);
     }
-
-    const post = await axios.post("http://localhost:5000/api/weekData", {
-      days_id: daysData[countedDay].days_id,
-    });
-    console.log(post.data);
-    console.log(countedDay);
-    setWeekDay(post.data);
   };
 
-  const handleSubtractedDaysClick = async () => {
+  const handleSubtractedDaysClick = () => {
     setCountedDay(countedDay - 1);
 
     if (countedDay === 0) {
       setCountedDay(daysData.length - 1);
     }
-
-    try {
-      const post = await axios.post("http://localhost:5000/api/weekData", {
-        days_id: daysData[countedDay].days_id,
-      });
-      console.log(post.data);
-
-      setWeekDay(post.data);
-      console.log(countedDay);
-    } catch (error) {}
   };
 
   return (

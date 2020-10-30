@@ -18,45 +18,6 @@ import print from "print-js";
 import { saveAs } from "file-saver";
 import axios from "axios";
 
-const signUpValidationSchema = yup.object().shape({
-  firstNameLastName: yup
-    .string()
-    .required("Unesite ime i prezime")
-    .max(40, "Please enter no more than 40 characters"),
-
-  subject: yup
-    .string()
-    .required("Unesite predmet")
-    .max(40, "Please enter no more than 40 characters"),
-});
-
-const Example = () => {
-  const [count, setCount] = useState(0);
-
-  // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {
-    // Update the document title using the browser API
-    document.title = `You clicked ${count} times`;
-  }, [count]);
-
-  return (
-    <div>
-      <p>You clicked {count} times</p>
-
-      <button onClick={() => setCount(count + 1)}>Click me</button>
-    </div>
-  );
-};
-
-const Clock = (props: any) => {
-  return (
-    <div>
-      <h1>Hello, world!</h1>
-      <h2>It is {props.date.toLocaleTimeString()}.</h2>
-    </div>
-  );
-};
-
 const Patterns = () => {
   const [themeName, setThemeName] = useState("(Naslov teme)");
 
@@ -188,7 +149,9 @@ const Patterns = () => {
         <Botun onClick={createPDF}>Spremi PDF</Botun>
       </SideBarForm>
       <MainContentDiv>
+      
         <PatternDiv>
+          <img style={{width:"200px", height:"200px"}} src={logo_sveuciliste_u_zadru}></img>
           <h1>Sveučilište u Zadru</h1>
           <h2>Prijava teme završnog rada</h2>
 
@@ -228,7 +191,9 @@ const Patterns = () => {
               takvog čina, uključivo i oduzimanje javne isprave koju ću takvim
               radom steći.{" "}
             </p>
+            <p>_______________________(potpis studenta)</p>
           </div>
+         
         </PatternDiv>
       </MainContentDiv>
     </ParrentDiv>
@@ -262,7 +227,7 @@ const Title = styled.div`
 
 const MainContentDiv = styled.div`
   grid-area: content;
-  background-color: whitesmoke;
+  background-color: white;
 `;
 
 const SideBarForm = styled.div`
@@ -275,6 +240,7 @@ const SideBarForm = styled.div`
 const PatternDiv = styled.div`
   display: flex;
   flex-direction: column;
+  padding-bottom: 5px;
   justify-content: center;
   align-items: center;
   line-height: 1.4;

@@ -49,8 +49,8 @@ const ForOptionsDiv = styled.div`
 `;
 
 const OptionDiv = styled.div`
-  height: 26rem;
-  width: 27.5rem;
+  height: 15rem;
+  width: 15rem;
   position: relative;
   background-color: #000000cc;
   opacity: 0.9;
@@ -78,24 +78,24 @@ const Home = () => {
             <img
               src={documents}
               style={{
-                width: "29rem",
-                height: "23.5rem",
+                width: "12.5rem",
+                height: "12.5rem",
               }}
             ></img>
           </Link>
-          <span>Obrasci i forme</span>
+          <span>Obrazac prijave</span>
         </OptionDiv>
         <OptionDiv>
           <Link to="/clientScreen">
             <img
               src={calendar}
               style={{
-                width: "29rem",
-                height: "23.5rem",
+                width: "15rem",
+                height: "12.5rem",
               }}
             ></img>
           </Link>
-          <span>Školski raspored</span>
+          <span>Raspored</span>
         </OptionDiv>
 
         <OptionDiv>
@@ -103,8 +103,8 @@ const Home = () => {
             <img
               src={admin}
               style={{
-                width: "22rem",
-                height: "22rem",
+                width: "12.5rem",
+                height: "12.5rem",
               }}
             ></img>
           </Link>

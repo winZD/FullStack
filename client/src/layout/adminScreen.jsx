@@ -361,11 +361,6 @@ const AdminScreen = () => {
             }}
             onSubmit={async (data, { resetForm }) => {
               console.log(data); //ovo maknuti
-              await axios.post("http://localhost:5000/api/postDates", {
-                dates: dateLocale,
-                time_change_begin: timeChangeBegin.format("HH:mm"),
-                time_change_until: timeChangeUntil.format("HH:mm"),
-              });
 
               await axios.post(
                 "http://localhost:5000/api/postProfDayCabCouDep",

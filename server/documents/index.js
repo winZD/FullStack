@@ -16,7 +16,7 @@ module.exports = ({
              .pattern-div {
              max-width: 800px;
              margin: auto;
-             
+             font-size: 20px;
              flex-direction: column;
             
              }
@@ -36,6 +36,7 @@ module.exports = ({
           <div class="pattern-div">
    
           <div class="title-div">
+          <img src="https://i.ibb.co/xHw3V2N/Logo-sveuciliste-u-zadru.jpg" alt="Logo_sveuciliste_u_zadru" border="0">
           <h1>Sveučilište u Zadru</h1>
           <h2>Prijava teme završnog rada</h2>
           </div>
@@ -84,6 +85,7 @@ module.exports = ({
           takvog čina, uključivo i oduzimanje javne isprave koju ću takvim
           radom steći.
         </p>  
+        <span>____________________(potpis studenta)</span>
           </div>
           
        </body>

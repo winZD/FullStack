@@ -61,11 +61,11 @@ const WeekTable = (props) => {
         { title: "Odjel", field: "department_name" },
         { title: "Predmet", field: "course_name" },
         {
-          title: "Početak",
+          title: "Start",
           field: "time_change_begin",
         },
         {
-          title: "Završetak",
+          title: "Kraj",
           field: "time_change_until",
         },
         {
@@ -79,12 +79,16 @@ const WeekTable = (props) => {
         setSelectedRow(selectedRow.tableData.id)
       }*/
       options={{
+        filtering: true,
         emptyRowsWhenPaging: false,
-        search: false,
+        search: true,
         sorting: true,
         exportButton: true,
         showTitle: false,
         rowStyle: { "&:hover": { backgroundColor: "#EEE" } },
+        rowStyle: (rowData, index, level) => ({
+          backgroundColor: index % 2 === 0 ? "#EEE" : "white",
+        }),
         /*
         rowStyle: (rowData) => ({
           backgroundColor:
@@ -103,12 +107,15 @@ const WeekTable = (props) => {
         header: {
           actions: "Actions",
         },
+
         pagination: {
           labelDisplayedRows: "{from}-{to} do {count}",
           labelRowsSelect: "Redovi",
         },
         toolbar: {
           nRowsSelected: "{0} reda(ova) selektirana",
+          searchPlaceholder: "Pretraži...",
+          exportTitle: "Download",
         },
       }}
     />

@@ -27,7 +27,7 @@ const pdfTemplate = require("./documents/index.js");
 //////////////////////////////////////SQLITE/////////
 const sqlite3 = require("sqlite3").verbose();
 //const { Sequelize, DataTypes, QueryTypes } = require("sequelize");
-const { where } = require("./schema/data");
+
 const withAuth = require("./middleware");
 const router = express.Router();
 
@@ -576,9 +576,6 @@ router.get("/signOut", function (req, res) {
 // append /api for our http requests
 app.use("/api", router);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("./client/build"));
-}
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
 );

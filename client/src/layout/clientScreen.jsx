@@ -9,7 +9,6 @@ import back from "../icons/back.png";
 import { useMemo, useState, useEffect } from "react";
 import axios from "axios";
 
-import TableStudents from "./table/TableStudents";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -25,36 +24,6 @@ registerLocale("hr", hr);
 const ClientScreenInfo = () => {
   const [loading, setLoading] = useState(true);
 
-  /*
-  useEffect(() => {
-    fetch("http://localhost:5000/api/getData")
-      .then((response) => response.json())
-      .then((data) => {
-        setDatabase(data);
-      });
-  }, []);
-*/
-
-  /*
-   {posts.map((item: any) => (
-                <div key={item.userId}>
-                  <li>
-                    <h2>{item.title}</h2>
-                    <p>{item.body}</p>
-                  </li>
-                </div>
-              ))}
-*/
-
-  /*Login database:
-  const handleClick2 = () => {
-    axios.post("http://localhost:5000/api/login/user", {
-      username: "teste user-a",
-      email: "ccc@yahoo.com",
-      password: "123456789",
-    }); 
-  };
-  */
   ////////////////////////////////////////////////////////
   const optionsForDateDataLocale = {
     weekday: "long",
@@ -77,45 +46,6 @@ const ClientScreenInfo = () => {
   const [allData, setAllData] = useState([]);
 
   const [filteredData, setFilteredData] = useState([]);
-
-  const columns = useMemo(
-    () => [
-      {
-        // first group - TV Show
-        Header: "Informacije o predavanjima",
-        // First group columns
-        columns: [
-          {
-            id: "professors",
-            Header: "Ime i prezime",
-            accessor: (data) => data.full_name,
-          },
-          {
-            id: "cabinets",
-            Header: "Učionica",
-            accessor: (data) => data.cabinet_number,
-          },
-
-          {
-            id: "departments",
-            Header: "Odjel",
-            accessor: (data) => data.department_name,
-          },
-          {
-            id: "courses",
-            Header: "Predmet",
-            accessor: (data) => data.course_name,
-          },
-          {
-            id: "days",
-            Header: "Dan",
-            accessor: (data) => data.day_name,
-          },
-        ],
-      },
-    ],
-    []
-  );
 
   ////dohvat svih podataka za odredenog profesora
 
@@ -204,8 +134,6 @@ const ClientScreenInfo = () => {
 
   /////////////////////////
 
-  const handleClick = () => {};
-
   const [popup, setPopup] = useState(false);
   const [weekDay, setWeekDay] = useState([]);
   const handleWeekSchedule = () => {
@@ -290,7 +218,6 @@ const ClientScreenInfo = () => {
                 "http://localhost:5000/api/postSearchProfDayCabCouDep",
                 {
                   full_date: dateLocale,
-
                   days_id: data.days,
                   professors_id: data.profesori,
                   departments_id: data.department,
@@ -332,19 +259,7 @@ const ClientScreenInfo = () => {
                     />
                   )}
                 </SelectDiv>
-                <SelectDiv>
-                  {loading ? (
-                    <Skeleton />
-                  ) : (
-                    <Select
-                      placeholder={"Odaberite dan"}
-                      name={"days"}
-                      options={mapDataByDay}
-                      values={values.daysData}
-                      onChange={(value) => setFieldValue("days", value.id)}
-                    ></Select>
-                  )}
-                </SelectDiv>
+
                 <SelectDiv>
                   {loading ? (
                     <Skeleton />
@@ -407,12 +322,9 @@ const ClientScreenInfo = () => {
                 </SelectDiv>
 
                 <ButtonSearch type="submit">Pretraži</ButtonSearch>
-
-                <pre>{JSON.stringify(values, null, 2)}</pre>
               </form>
             )}
           </Formik>
-          <button onClick={handleClick}>Klik</button>
         </AlignSideBarDiv>
       </SideBarForm>
       <MainContent>
@@ -442,31 +354,6 @@ const ClientScreenInfo = () => {
     </Container>
   );
 };
-
-const TableDiv = styled.div`
-  height: 65rem;
-  max-height: 62.5vh;
-  width: 50rem;
-  position: absolute;
-  top: 55%;
-  left: 62.5%;
-  transform: translate(-50%, -50%);
-
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-`;
-const TableNameDiv = styled.div`
-  height: 7.5%;
-  width: 100%;
-  text-align: center;
-  font-size: 2.5rem;
-  background-color: transparent;
-  font-weight: bold;
-  margin-top: 0.5rem;
-`;
 
 const InTableDataDiv = styled.div`
   max-height: 90%;
@@ -545,6 +432,7 @@ border-radius: 15px;
 `;
 
 const ButtonSearch = styled.button`
+margin-bottom: 5px;
 padding: 10px 35px;
 font-size: 20px;
 text-align: center;
